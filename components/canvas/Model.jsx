@@ -4,7 +4,7 @@ import { useGLTF, MeshTransmissionMaterial, Float } from '@react-three/drei';
 import { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 
-export default function Model() {
+export default function Model({ lowPerformance }) {
   const mesh = useRef();
   const group = useRef();
   
@@ -22,12 +22,12 @@ export default function Model() {
   return (
     <group ref={group}>
       {/* ── Optimized Glass Artifact ─────────────────────────────────────── */}
-      <mesh ref={mesh} scale={1.4} castShadow receiveShadow>
-        <torusKnotGeometry args={[1, 0.35, 128, 32]} /> {/* Lower radial segments */}
+      <mesh ref={mesh} scale={1.4} castShadow={!lowPerformance} receiveShadow={!lowPerformance}>
+        <torusKnotGeometry args={[1, 0.35, lowPerformance ? 64 : 128, lowPerformance ? 16 : 32]} />
         <MeshTransmissionMaterial
-          backside={false} // Performance boost: don't render back faces
-          samples={4} // Lower samples for speed vs noise
-          resolution={128} // Significantly lower resolution for refraction
+          backside={false}
+          samples={lowPerformance ? 2 : 4}
+          resolution={lowPerformance ? 64 : 128}
           thickness={0.15}
           roughness={0.1}
           anisotropy={0}
@@ -45,14 +45,16 @@ export default function Model() {
       </mesh>
       
       {/* ── Subtler Core ─────────────────────────────────────────────────── */}
-      <mesh scale={0.7}>
-        <sphereGeometry args={[1, 16, 16]} />
-        <meshBasicMaterial color="#ffffff" transparent opacity={0.02} />
-      </mesh>
+      {!lowPerformance && (
+        <mesh scale={0.7}>
+          <sphereGeometry args={[1, 16, 16]} />
+          <meshBasicMaterial color="#ffffff" transparent opacity={0.02} />
+        </mesh>
+      )}
 
       {/* ── Subtler Wireframe ─────────────────────────────────────────────── */}
       <mesh scale={1.41}>
-        <torusKnotGeometry args={[1, 0.35, 64, 12]} />
+        <torusKnotGeometry args={[1, 0.35, lowPerformance ? 32 : 64, lowPerformance ? 8 : 12]} />
         <meshBasicMaterial color="#ffffff" wireframe transparent opacity={0.01} />
       </mesh>
       

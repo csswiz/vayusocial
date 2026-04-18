@@ -28,10 +28,10 @@ const SECTIONS = [
   { id: 'contact', x: 0, z: 0, s: 1.8 }
 ];
 
-export default function Experience() {
+export default function Experience({ lowPerformance }) {
   const group = useRef();
   const mouse = useRef({ x: 0, y: 0 });
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const scrollRef = useRef(0);
 
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -43,11 +43,11 @@ export default function Experience() {
       const h = document.documentElement;
       const b = document.body;
       const percent = (h.scrollTop || b.scrollTop) / (h.scrollHeight - h.clientHeight);
-      setScrollProgress(percent);
+      scrollRef.current = percent;
     };
 
     window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('scroll', handleScroll);
@@ -55,8 +55,8 @@ export default function Experience() {
   }, []);
 
   useFrame((state) => {
-    const t = scrollProgress; 
-    const tripDistance = 32; // Expanded for 18 sections
+    const t = scrollRef.current; 
+    const tripDistance = 32;
 
     // ── Camera movement ────────────────────────────────────────────────────────
     const targetCameraX = Math.sin(t * Math.PI) * 3.5 + mouse.current.x * 0.4;
@@ -85,32 +85,31 @@ export default function Experience() {
   return (
     <>
       <ambientLight intensity={0.25} />
-      <spotLight position={[8, 10, 8]} angle={0.2} penumbra={1} intensity={60} castShadow />
-      <pointLight position={[-8, -8, -8]} intensity={15} color="#3b82f6" />
-      <pointLight position={[8, -4, 4]} intensity={10} color="#8b5cf6" />
+      <spotLight position={[8, 10, 8]} angle={0.2} penumbra={1} intensity={lowPerformance ? 40 : 60} castShadow={!lowPerformance} />
+      <pointLight position={[-8, -8, -8]} intensity={10} color="#3b82f6" />
+      <pointLight position={[8, -4, 4]} intensity={5} color="#8b5cf6" />
 
       <group ref={group}>
-        <Float speed={2} rotationIntensity={0.8} floatIntensity={1}>
-          <Model />
+        <Float speed={lowPerformance ? 1 : 2} rotationIntensity={0.8} floatIntensity={1}>
+          <Model lowPerformance={lowPerformance} />
         </Float>
       </group>
 
-      <Stars />
+      <Stars count={lowPerformance ? 2000 : 8000} />
     </>
   );
 }
 
-function Stars() {
-  const count = 8000;
+function Stars({ count }) {
   const positions = useMemo(() => {
     const pos = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
       pos[i * 3]     = (Math.random() - 0.5) * 60;
-      pos[i * 3 + 1] = (Math.random() - 0.5) * 450; // Increased range
+      pos[i * 3 + 1] = (Math.random() - 0.5) * 450;
       pos[i * 3 + 2] = (Math.random() - 0.5) * 60;
     }
     return pos;
-  }, []);
+  }, [count]);
 
   const ref = useRef();
   useFrame(() => {

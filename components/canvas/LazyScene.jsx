@@ -10,12 +10,16 @@ const Scene = dynamic(() => import('./Scene'), {
 
 export default function LazyScene() {
   const [isMobile, setIsMobile] = useState(false);
+  const [showFake, setShowFake] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+      // Force fake for very old hardware via basic UA sniffing if needed
+      const ua = navigator.userAgent.toLowerCase();
+      const isVeryOld = ua.includes('windows nt 6.1') || ua.includes('windows nt 5.1'); // Win 7 or XP
+      setIsMobile(window.innerWidth < 768 || isVeryOld);
     };
     
     checkMobile();
@@ -25,5 +29,9 @@ export default function LazyScene() {
 
   if (!isMounted) return null;
 
-  return isMobile ? <FakeScene /> : <Scene />;
+  if (isMobile || showFake) {
+    return <FakeScene isExtremeLowEnd={showFake} />;
+  }
+
+  return <Scene onFallback={() => setShowFake(true)} />;
 }

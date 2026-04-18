@@ -24,20 +24,22 @@ export default function Hero() {
         </p>
         
         <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
-          <motion.button 
+          <motion.a 
+            href="#contact"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="px-10 py-4 bg-white text-black text-[11px] font-bold uppercase tracking-widest rounded-full hover:bg-white/90 transition-colors"
+            className="px-10 py-4 bg-white text-black text-[11px] font-bold uppercase tracking-widest rounded-full hover:bg-white/90 transition-colors cursor-pointer"
           >
             Start Your Journey
-          </motion.button>
-          <motion.button 
+          </motion.a>
+          <motion.a 
+            href="#work"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="px-10 py-4 border border-white/10 text-white text-[11px] font-bold uppercase tracking-widest rounded-full hover:bg-white/5 transition-colors"
+            className="px-10 py-4 border border-white/10 text-white text-[11px] font-bold uppercase tracking-widest rounded-full hover:bg-white/5 transition-colors cursor-pointer"
           >
             View Our Work
-          </motion.button>
+          </motion.a>
         </div>
       </motion.div>
     </section>

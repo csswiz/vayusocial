@@ -27,14 +27,14 @@ export default function ConversionEngine() {
         animate={{ opacity: 1, scale: 1 }}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className="fixed bottom-10 right-10 z-[1000] pointer-events-auto hidden md:block"
+        className="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-[1000] pointer-events-auto"
       >
         <a 
           href="#audit" 
           className="group relative flex items-center justify-center p-1"
         >
           <div className="absolute inset-0 bg-white rounded-full blur-xl opacity-0 group-hover:opacity-20 transition-opacity" />
-          <div className="bg-white text-black px-8 py-5 rounded-full text-[11px] font-black uppercase tracking-[0.3em] flex items-center gap-4 shadow-2xl transition-all group-hover:bg-neutral-100">
+          <div className="bg-white text-black px-6 py-4 md:px-8 md:py-5 rounded-full text-[9px] md:text-[11px] font-black uppercase tracking-[0.3em] flex items-center gap-3 md:gap-4 shadow-2xl transition-all group-hover:bg-neutral-100">
              Book A Call
              <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
           </div>

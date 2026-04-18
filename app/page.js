@@ -29,57 +29,44 @@ export default function Home() {
         <LazyScene />
       </div>
 
-      {/* Dimming vignette for legibility */}
-      <div className="vignette" />
+      {/* Dimming vignette for legibility - Adjusted for better mobile contrast */}
+      <div className="vignette opacity-60 md:opacity-100" />
 
       {/* UI Content - Reordered for High-Performance Portfolio Narrative */}
       <div className="relative z-10">
-        {/* Phase 1: Attention & Hook */}
+        {/* ... sections ... */}
         <div id="hero"><Hero /></div>
-        
-        {/* Phase 2: Who & Why (Connection) */}
         <div id="impact"><About /></div>
         <div id="story"><Story /></div>
-        
-        {/* Phase 3: Immediate Proof (Authority) */}
         <div id="live"><GrowthDashboard /></div>
         <div id="cases"><CaseStudies /></div>
         <div id="work"><Projects /></div>
         <div id="showcase"><ContentShowcase /></div>
-        
-        {/* Phase 4: Validation (Trust) */}
         <div id="trust"><Testimonials /></div>
         <div id="awards"><Recognition /></div>
-        
-        {/* Phase 5: The Engine (Solution) */}
         <div id="services"><ExperienceSection /></div>
         <div id="tech"><TechStack /></div>
         <div id="process"><Process /></div>
-        
-        {/* Phase 6: Investment & Logic (Conversion) */}
         <div id="pricing"><Pricing /></div>
         <div id="insights"><Insights /></div>
         <div id="audit"><LeadMagnet /></div>
         <CTABanner />
-        
-        {/* Phase 7: The Final Bridge (Humanize & Contact) */}
         <div id="team"><Team /></div>
         <div id="contact"><Contact /></div>
       </div>
 
-      {/* Persistent Navigation - Realigned to new logic */}
-      <nav className="fixed top-0 left-0 w-full px-6 md:px-10 py-6 md:py-8 flex flex-col md:flex-row justify-between items-center z-50 pointer-events-none gap-4">
-        <div className="text-base md:text-lg font-bold tracking-tighter text-white pointer-events-auto cursor-pointer select-none" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
+      {/* Persistent Navigation - Responsive & Visible */}
+      <nav className="fixed top-0 left-0 w-full px-4 md:px-10 py-4 md:py-8 flex flex-col md:flex-row justify-between items-center z-50 pointer-events-none gap-4 bg-black/20 backdrop-blur-md md:bg-transparent md:backdrop-blur-none transition-all border-b border-white/5 md:border-none">
+        <div className="text-base md:text-lg font-bold tracking-tighter text-white pointer-events-auto cursor-pointer select-none py-1" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
           VAYU<span className="text-white/30">SOCIAL</span>
         </div>
-        <div className="flex flex-wrap justify-center gap-4 md:gap-8 text-[9px] md:text-[11px] font-mono tracking-widest text-white/40 pointer-events-auto uppercase">
+        <div className="flex flex-wrap justify-center gap-x-4 md:gap-x-8 gap-y-2 text-[8px] md:text-[11px] font-mono tracking-widest text-white/40 pointer-events-auto uppercase">
           <a href="#story" className="hover:text-white transition-colors duration-300">Story</a>
           <a href="#work" className="hover:text-white transition-colors duration-300">Work</a>
           <a href="#trust" className="hover:text-white transition-colors duration-300">Trust</a>
           <a href="#services" className="hover:text-white transition-colors duration-300">Services</a>
           <a href="#pricing" className="hover:text-white transition-colors duration-300">Pricing</a>
           <a href="#process" className="hover:text-white transition-colors duration-300">Process</a>
-          <a href="#team" className="hover:text-white transition-colors duration-300">Team</a>
           <a href="#contact" className="hover:text-white transition-colors duration-300">Contact</a>
         </div>
       </nav>

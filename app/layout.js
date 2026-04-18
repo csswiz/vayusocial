@@ -17,7 +17,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${inter.variable} antialiased`}>
-      <body className="bg-[#050505] text-white overflow-x-hidden cursor-none">
+      <body className="bg-[#050505] text-white overflow-x-hidden">
         <CustomCursor />
         <SmoothScroll>
           {children}

@@ -37,10 +37,10 @@ p {
   z-index: 5;
 }
 
-/* Prevent native scroll — R3F ScrollControls handles it */
+/* Allow natural scroll for Lenis */
 html,
 body {
-  height: 100%;
+  min-height: 100%;
 }
 
 canvas {

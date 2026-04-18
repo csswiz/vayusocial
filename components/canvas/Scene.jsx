@@ -30,7 +30,7 @@ export default function Scene({ onFallback }) {
     <>
       <Loader />
 
-      <div className="fixed inset-0 z-0 bg-[#050505]">
+      <div className="absolute inset-0 z-0 bg-[#050505]">
         <Canvas
           shadows={tier > 0 ? { type: THREE.PCFShadowMap } : false}
           camera={{ position: [0, 0, 5], fov: 35 }}

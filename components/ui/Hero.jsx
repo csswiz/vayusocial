@@ -1,10 +1,16 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import LazyScene from '../canvas/LazyScene';
 
 export default function Hero() {
   return (
-    <section className="h-screen w-full flex flex-col items-center justify-center px-10 text-center relative overflow-hidden">
+    <section className="h-screen w-full flex flex-col items-center justify-center px-10 text-center relative overflow-hidden bg-black">
+      {/* 3D Hero Background */}
+      <div className="absolute inset-0 z-0 pointer-events-none opacity-60 md:opacity-100">
+        <LazyScene />
+      </div>
+
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}

@@ -34,7 +34,7 @@ export default function FakeScene({ isExtremeLowEnd }) {
   const rotation = scrollProgress * 120;
 
   return (
-    <div className="fixed inset-0 z-0 bg-[#050505] overflow-hidden pointer-events-none">
+    <div className="absolute inset-0 z-0 bg-[#050505] overflow-hidden pointer-events-none">
       {/* ── Starfield ── */}
       <div className="absolute inset-0">
         {stars.map((star, i) => (

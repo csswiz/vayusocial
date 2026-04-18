@@ -4,7 +4,7 @@ import { useGLTF, MeshTransmissionMaterial, Float } from '@react-three/drei';
 import { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 
-export default function Model({ lowPerformance }) {
+export default function Model({ tier }) {
   const mesh = useRef();
   const group = useRef();
   
@@ -19,33 +19,51 @@ export default function Model({ lowPerformance }) {
     }
   });
 
+  // Performance-based geometry settings
+  const segments = tier === 2 ? 128 : tier === 1 ? 64 : 32;
+  const radialSegments = tier === 2 ? 32 : tier === 1 ? 16 : 8;
+
+  const materialProps = {
+    thickness: 0.15,
+    roughness: 0.1,
+    transmission: 1,
+    ior: 1.2,
+    chromaticAberration: 0.02,
+    backside: false,
+  };
+
   return (
     <group ref={group}>
       {/* ── Optimized Glass Artifact ─────────────────────────────────────── */}
-      <mesh ref={mesh} scale={1.4} castShadow={!lowPerformance} receiveShadow={!lowPerformance}>
-        <torusKnotGeometry args={[1, 0.35, lowPerformance ? 64 : 128, lowPerformance ? 16 : 32]} />
-        <MeshTransmissionMaterial
-          backside={false}
-          samples={lowPerformance ? 2 : 4}
-          resolution={lowPerformance ? 64 : 128}
-          thickness={0.15}
-          roughness={0.1}
-          anisotropy={0}
-          chromaticAberration={0.02}
-          distortion={0.2}
-          distortionScale={0.3}
-          temporalDistortion={0.05}
-          clearcoat={0.5}
-          attenuationDistance={0.5}
-          attenuationColor="#ffffff"
-          color="#ffffff"
-          transparent
-          opacity={0.4}
-        />
+      <mesh ref={mesh} scale={1.4} castShadow={tier === 2} receiveShadow={tier === 2}>
+        <torusKnotGeometry args={[1, 0.35, segments, radialSegments]} />
+        {tier > 0 ? (
+          <MeshTransmissionMaterial
+            {...materialProps}
+            samples={tier === 2 ? 4 : 2}
+            resolution={tier === 2 ? 128 : 64}
+            distortion={0.2}
+            distortionScale={0.3}
+            temporalDistortion={0.05}
+            clearcoat={0.5}
+            attenuationDistance={0.5}
+            attenuationColor="#ffffff"
+            color="#ffffff"
+            transparent
+            opacity={0.4}
+          />
+        ) : (
+          <meshPhysicalMaterial 
+            {...materialProps}
+            transparent
+            opacity={0.3}
+            color="#ffffff"
+          />
+        )}
       </mesh>
       
       {/* ── Subtler Core ─────────────────────────────────────────────────── */}
-      {!lowPerformance && (
+      {tier === 2 && (
         <mesh scale={0.7}>
           <sphereGeometry args={[1, 16, 16]} />
           <meshBasicMaterial color="#ffffff" transparent opacity={0.02} />
@@ -53,10 +71,12 @@ export default function Model({ lowPerformance }) {
       )}
 
       {/* ── Subtler Wireframe ─────────────────────────────────────────────── */}
-      <mesh scale={1.41}>
-        <torusKnotGeometry args={[1, 0.35, lowPerformance ? 32 : 64, lowPerformance ? 8 : 12]} />
-        <meshBasicMaterial color="#ffffff" wireframe transparent opacity={0.01} />
-      </mesh>
+      {tier > 0 && (
+        <mesh scale={1.41}>
+          <torusKnotGeometry args={[1, 0.35, tier === 2 ? 64 : 32, tier === 2 ? 12 : 8]} />
+          <meshBasicMaterial color="#ffffff" wireframe transparent opacity={0.01} />
+        </mesh>
+      )}
       
       {/* ── Orbital Rings ─────────────────────────────────────────────────── */}
       <group rotation={[Math.PI / 4, 0, 0]}>

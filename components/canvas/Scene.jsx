@@ -2,14 +2,13 @@
 
 import { Canvas } from '@react-three/fiber';
 import { Suspense, useState } from 'react';
-import { Preload, ScrollControls, useGLTF, Environment, ContactShadows, PerformanceMonitor, AdaptiveDpr } from '@react-three/drei';
+import { Preload, ScrollControls, useGLTF, Environment, ContactShadows, PerformanceMonitor, AdaptiveDpr, AdaptiveEvents } from '@react-three/drei';
 import * as THREE from 'three';
 import Experience from './Experience';
 import Loader from '../ui/Loader';
 
 export default function Scene() {
-  const [dpr, setDpr] = useState(1.5);
-  const [lowPerformance, setLowPerformance] = useState(false);
+  const [tier, setTier] = useState(2); // 0: Low, 1: Medium, 2: High
 
   return (
     <>
@@ -17,37 +16,36 @@ export default function Scene() {
 
       <div className="fixed inset-0 z-0">
         <Canvas
-          shadows={{ type: THREE.PCFShadowMap }}
+          shadows={tier > 0 ? { type: THREE.PCFShadowMap } : false}
           camera={{ position: [0, 0, 5], fov: 35 }}
           gl={{ 
-            antialias: !lowPerformance, 
+            antialias: tier > 1, 
             alpha: true, 
             stencil: false, 
             depth: true,
-            powerPreference: "high-performance"
+            powerPreference: "high-performance",
+            precision: tier > 0 ? "highp" : "mediump"
           }}
-          dpr={dpr}
+          dpr={tier === 2 ? 1.5 : tier === 1 ? 1 : 0.75}
         >
           <PerformanceMonitor 
-            onIncline={() => setDpr(2)} 
-            onDecline={() => {
-              setDpr(1);
-              setLowPerformance(true);
-            }} 
+            onIncline={() => setTier(prev => Math.min(prev + 1, 2))} 
+            onDecline={() => setTier(prev => Math.max(prev - 1, 0))} 
           />
           <AdaptiveDpr pixelated />
+          <AdaptiveEvents />
           
           <Suspense fallback={null}>
-            <Environment preset="city" />
-            <Experience lowPerformance={lowPerformance} />
+            <Environment preset={tier > 0 ? "city" : "night"} />
+            <Experience tier={tier} />
             <ContactShadows 
               position={[0, -2, 0]} 
-              opacity={lowPerformance ? 0.2 : 0.4} 
+              opacity={tier === 0 ? 0.1 : 0.4} 
               scale={20} 
-              blur={lowPerformance ? 1.5 : 2.4} 
+              blur={tier === 0 ? 1 : 2.4} 
               far={4.5} 
-              resolution={lowPerformance ? 128 : 256}
-              frames={lowPerformance ? 1 : Infinity}
+              resolution={tier === 2 ? 256 : 128}
+              frames={tier === 0 ? 1 : Infinity}
             />
             <Preload all />
           </Suspense>

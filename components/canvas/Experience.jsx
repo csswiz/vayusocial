@@ -28,7 +28,7 @@ const SECTIONS = [
   { id: 'contact', x: 0, z: 0, s: 1.8 }
 ];
 
-export default function Experience({ lowPerformance }) {
+export default function Experience({ tier }) {
   const group = useRef();
   const mouse = useRef({ x: 0, y: 0 });
   const scrollRef = useRef(0);
@@ -84,18 +84,28 @@ export default function Experience({ lowPerformance }) {
 
   return (
     <>
-      <ambientLight intensity={0.25} />
-      <spotLight position={[8, 10, 8]} angle={0.2} penumbra={1} intensity={lowPerformance ? 40 : 60} castShadow={!lowPerformance} />
-      <pointLight position={[-8, -8, -8]} intensity={10} color="#3b82f6" />
-      <pointLight position={[8, -4, 4]} intensity={5} color="#8b5cf6" />
+      <ambientLight intensity={tier > 0 ? 0.25 : 0.5} />
+      <spotLight 
+        position={[8, 10, 8]} 
+        angle={0.2} 
+        penumbra={1} 
+        intensity={tier === 2 ? 60 : 30} 
+        castShadow={tier === 2} 
+      />
+      {tier > 0 && (
+        <>
+          <pointLight position={[-8, -8, -8]} intensity={tier === 2 ? 10 : 5} color="#3b82f6" />
+          <pointLight position={[8, -4, 4]} intensity={tier === 2 ? 5 : 2} color="#8b5cf6" />
+        </>
+      )}
 
       <group ref={group}>
-        <Float speed={lowPerformance ? 1 : 2} rotationIntensity={0.8} floatIntensity={1}>
-          <Model lowPerformance={lowPerformance} />
+        <Float speed={tier === 2 ? 2 : 1} rotationIntensity={0.8} floatIntensity={1}>
+          <Model tier={tier} />
         </Float>
       </group>
 
-      <Stars count={lowPerformance ? 2000 : 8000} />
+      <Stars count={tier === 2 ? 8000 : tier === 1 ? 4000 : 1000} />
     </>
   );
 }

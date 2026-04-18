@@ -44,11 +44,14 @@ export default function Pricing() {
                   </li>
                 ))}
               </ul>
-              <button className={`w-full py-4 rounded-full text-[11px] font-bold uppercase tracking-widest transition-all ${
-                plan.popular ? 'bg-white text-black hover:bg-white/90' : 'border border-white/20 hover:bg-white/5'
-              }`}>
+              <a 
+                href="#audit"
+                className={`w-full py-4 rounded-full text-[11px] font-bold uppercase tracking-widest transition-all text-center ${
+                  plan.popular ? 'bg-white text-black hover:bg-white/90' : 'border border-white/20 hover:bg-white/5'
+                }`}
+              >
                 Choose Plan
-              </button>
+              </a>
             </motion.div>
           ))}
         </div>

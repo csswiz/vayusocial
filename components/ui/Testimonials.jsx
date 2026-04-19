@@ -38,20 +38,6 @@ export default function Testimonials() {
           </h2>
         </div>
 
-        {/* Logo Scrollbar */}
-        <div className="w-full h-24 mb-32 relative overflow-hidden flex items-center">
-            <motion.div 
-               animate={{ x: [0, -1000] }}
-               transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-               className="flex gap-20 items-center whitespace-nowrap opacity-20 hover:opacity-100 transition-opacity duration-700 cursor-default"
-            >
-                {[...Array(3)].map((_, i) => (
-                   <img key={i} src="/brand_logos_set_1776490785773.png" alt="Logos" className="h-10 md:h-12 object-contain grayscale brightness-200" />
-                ))}
-            </motion.div>
-            <div className="absolute left-0 top-0 w-40 h-full bg-gradient-to-r from-[#050505] to-transparent z-10" />
-            <div className="absolute right-0 top-0 w-40 h-full bg-gradient-to-l from-[#050505] to-transparent z-10" />
-        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {testimonials.map((t, i) => (

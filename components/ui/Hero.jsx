@@ -1,14 +1,14 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import LazyScene from '../canvas/LazyScene';
+import LightParallax from './LightParallax';
 
 export default function Hero() {
   return (
     <section className="h-screen w-full flex flex-col items-center justify-center px-10 text-center relative overflow-hidden bg-black">
-      {/* 3D Hero Background */}
-      <div className="absolute inset-0 z-0 pointer-events-none opacity-60 md:opacity-100">
-        <LazyScene />
+      {/* Lightweight Parallax Hero Background */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <LightParallax />
       </div>
 
       <motion.div
@@ -17,12 +17,28 @@ export default function Hero() {
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         className="max-w-4xl z-10"
       >
-        <span className="text-[10px] uppercase tracking-[0.5em] text-white/30 mb-6 block">
+        <motion.span 
+          whileHover={{ scale: 1.05, filter: "brightness(1.5)" }}
+          className="text-[10px] uppercase tracking-[0.5em] text-white/30 mb-6 block cursor-default"
+        >
           Performance Driven SMM Agency
-        </span>
-        <h1 className="text-5xl md:text-9xl font-black tracking-tighter leading-[0.9] md:leading-[0.85] text-white mb-8 uppercase text-balance">
-          GROW YOUR <br />
-          <span className="text-white/30">BRAND.</span>
+        </motion.span>
+        <h1 className="text-6xl md:text-9xl font-black tracking-tighter leading-[0.9] md:leading-[0.85] text-white mb-8 uppercase text-balance">
+          <motion.div 
+            whileHover={{ scaleX: 1.15 }}
+            transition={{ type: "spring", stiffness: 300, damping: 15 }}
+            className="cursor-default inline-block origin-center"
+          >
+            GROW YOUR
+          </motion.div>
+          <br />
+          <motion.div 
+            whileHover={{ scaleX: 1.25 }}
+            transition={{ type: "spring", stiffness: 300, damping: 15 }}
+            className="text-white/30 cursor-default inline-block origin-center"
+          >
+            BRAND.
+          </motion.div>
         </h1>
         <p className="max-w-xl mx-auto text-lg text-white/80 leading-relaxed font-medium mb-12">
           We craft viral strategies and immersive content for ambitious brands 

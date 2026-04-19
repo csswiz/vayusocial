@@ -47,10 +47,22 @@ export default function About() {
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ delay: i * 0.1 }}
-              className="glass p-8 rounded-3xl flex flex-col justify-center border border-white/5"
+              whileHover={{ 
+                y: -10, 
+                backgroundColor: 'rgba(255,215,0,0.02)',
+                borderColor: 'rgba(255,215,0,0.2)',
+                boxShadow: '0 20px 40px rgba(0,0,0,0.4)'
+              }}
+              className="glass p-10 rounded-[40px] flex flex-col justify-center border border-white/5 transition-all duration-500 group"
             >
-              <h3 className="text-3xl md:text-4xl font-bold mb-2">{stat.value}</h3>
-              <p className="text-[10px] uppercase tracking-widest text-white/30">{stat.label}</p>
+              <h3 className="text-4xl md:text-5xl font-black mb-2 tracking-tighter group-hover:text-amber-400 transition-colors">
+                {stat.value}
+              </h3>
+              <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-white/30 group-hover:text-white/60 transition-colors">
+                {stat.label}
+              </p>
+              
+              <div className="mt-8 w-10 h-1 bg-white/10 group-hover:w-full group-hover:bg-amber-400 transition-all duration-700" />
             </motion.div>
           ))}
         </div>
